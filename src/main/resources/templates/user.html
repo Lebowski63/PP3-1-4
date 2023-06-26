@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
     <title>Личный кабинет</title>
@@ -19,7 +19,8 @@
         <td th:utext="${user.getEmail()}">...</td>
         <br/>
         <th>Права доступа: </th>
-        <td th:utext="${user.getListRole()}">...</td>
+        <td th:utext="${user.getAuthorities()}">...</td>
+<!--        <div class="mt-2"> Roles: <span sec:authentication="principal.authorities"/></div>-->
     </tr>
     <br/>
     <form style="display: inline-block;" th:action="@{/logout}">
