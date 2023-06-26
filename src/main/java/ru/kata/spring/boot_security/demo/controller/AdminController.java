@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class AdminController {
         this.roleService = roleService;
     }
 
+    @Secured("ADMIN")
     @GetMapping
     public String getUsers(Model model) {
         model.addAttribute("user", userService.getAllUsers());

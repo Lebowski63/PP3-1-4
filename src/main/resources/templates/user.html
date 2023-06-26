@@ -18,8 +18,8 @@
         <th>Почта: </th>
         <td th:utext="${user.getEmail()}">...</td>
         <br/>
-<!--        <th>Права доступа: </th>-->
-<!--        <td th:utext="${user.getListRole()}">...</td>-->
+        <th>Права доступа: </th>
+        <td th:utext="${user.getListRole()}">...</td>
     </tr>
     <br/>
     <form style="display: inline-block;" th:action="@{/logout}">

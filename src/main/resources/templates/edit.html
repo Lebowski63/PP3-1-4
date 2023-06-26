@@ -7,11 +7,11 @@
 <body>
 
 <form th:method="PATCH" th:action="@{/admin/edit/{id}(id=${user.getId()})}" th:object="${user}">
-  <label for="name" >Новое имя: </label>
-  <input type="text" th:field="*{username}" id="name"/>
+  <label for="username" >Новое имя: </label>
+  <input type="text" th:field="*{username}" id="username"/>
   <br/>
-  <label for="surname" >Новая фамилия: </label>
-  <input type="text" th:field="*{lastname}" id="surname"/>
+  <label for="lastname" >Новая фамилия: </label>
+  <input type="text" th:field="*{lastname}" id="lastname"/>
   <br/>
   <label for="email" >Новый email: </label>
   <input type="text" th:field="*{email}" id="email"/>
@@ -21,10 +21,22 @@
   <br/>
   <label for="listRole">Roles:</label><br>
   <div th:each="role : ${roles}">
-    <input type="checkbox" id="role_${role.id}" name="roles" th:value="${role.id}"
+    <input type="checkbox" id="role_${role.id}" name="listRole" th:value="${role.id}"
            th:checked="${user.listRole.contains(role)}"> <label th:text="${role.rolename}"></label><br>
   </div>
   <br/>
+<!--  <br/>-->
+<!--  <p>-->
+<!--    <label>Select role:-->
+<!--      <input type="checkbox" name="roles"-->
+<!--             th:each="role : ${roles}"-->
+<!--             th:text="${role.getRolename()()}"-->
+<!--             th:value="${role.getId()}"-->
+<!--             th:field="*{listRole}"-->
+<!--      />-->
+<!--    </label>-->
+<!--  </p>-->
+<!--  <br/>-->
   <input type="submit" value="Изменить!"/>
 </form>
 

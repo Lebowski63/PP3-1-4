@@ -59,13 +59,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(Long id, User user) {
-        User userbd = userRepository.save(user);
-        userbd.setPassword(passwordEncoder.encode(user.getPassword()));
-        userbd.setUsername(user.getUsername());
-        userbd.setLastname(user.getLastname());
-        userbd.setEmail(user.getEmail());
-        userbd.setListRole(user.getListRole());
-        userRepository.save(userbd);
+//        User userbd = userRepository.save(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setUsername(user.getUsername());
+        user.setLastname(user.getLastname());
+        user.setEmail(user.getEmail());
+        user.setListRole(user.getListRole());
+        userRepository.save(user);
     }
 
     @Override
@@ -93,14 +93,14 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getRolename())).collect(Collectors.toList());
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> listRoles) {
+        return listRoles.stream().map(r -> new SimpleGrantedAuthority(r.getRolename())).collect(Collectors.toList());
     }
     @PostConstruct
     private void createRoleAndUser() {
 
-        Role admin = new Role(1L, "ADMIN");
-        Role user = new Role(2L, "USER");
+        Role admin = new Role(1L, "ROLE_ADMIN");
+        Role user = new Role(2L, "ROLE_USER");
         roleRepository.saveAll(List.of(admin, user));
 
         List<Role> rolesOfAdmin = new ArrayList<>();
