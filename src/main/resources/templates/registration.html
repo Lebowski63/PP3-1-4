@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="eu" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/admin/registration}" th:object="${user}">
+    <label for="email">Введите email: </label>
+    <input type="text" th:field="*{email}" id="email"/>
+    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"> email Error</div>
+    <br/>
+    <label for="password">Введите password: </label>
+    <input type="text" th:field="*{password}" id="password"/>
+    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"> password Error</div>
+    <br/>
+    <label for="name">Введите username: </label>
+    <input type="text" th:field="*{username}" id="name"/>
+    <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"> username Error</div>
+    <br/>
+    <label for="surname">Введите lastname: </label>
+    <input type="text" th:field="*{lastname}" id="surname"/>
+    <div style="color:red" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"> lastname Error</div>
+    <br/>
+    <label for="listRole">Roles:</label><br>
+    <div th:each="role : ${roles}">
+        <input type="checkbox" id="role_${role.id}" name="listRole" th:value="${role.id}"
+               th:checked="${user.listRole.contains(role)}"> <label th:text="${role.rolename}"></label><br>
+    </div>
+    <br/>
+    <input type="submit" value="Sign up!"/>
+</form>
+
+</body>
+</html>
