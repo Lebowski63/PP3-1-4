@@ -20,7 +20,6 @@
         <br/>
         <th>Права доступа: </th>
         <td th:utext="${user.getAuthorities()}">...</td>
-<!--        <div class="mt-2"> Roles: <span sec:authentication="principal.authorities"/></div>-->
     </tr>
     <br/>
     <form style="display: inline-block;" th:action="@{/logout}">
