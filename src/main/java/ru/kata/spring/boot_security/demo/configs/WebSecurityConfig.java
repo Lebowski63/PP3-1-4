@@ -11,21 +11,27 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
+import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
+import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
+
+
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
     private final SuccessUserHandler successUserHandler;
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public WebSecurityConfig(@Lazy UserService userService, SuccessUserHandler successUserHandler) {
+    public WebSecurityConfig(@Lazy UserService userService, SuccessUserHandler successUserHandler, RoleRepository roleRepository, UserRepository userRepository) {
         this.userService = userService;
         this.successUserHandler = successUserHandler;
+        this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
     }
 
     @Override

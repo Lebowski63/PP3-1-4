@@ -3,22 +3,19 @@ package ru.kata.spring.boot_security.demo.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 
-import javax.annotation.PostConstruct;
+
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -37,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -59,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(Long id, User user) {
-//        User userbd = userRepository.save(user);
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setUsername(user.getUsername());
         user.setLastname(user.getLastname());
@@ -84,44 +81,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        if(user == null) {
+        if (user == null) {
             throw new UsernameNotFoundException(String.format("User %s not found", username));
         }
-
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                mapRolesToAuthorities(user.getListRole()));
+                user.getAuthorities());
     }
 
-
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> listRoles) {
-        return listRoles.stream().map(r -> new SimpleGrantedAuthority(r.getRolename())).collect(Collectors.toList());
-    }
-    @PostConstruct
-    private void createRoleAndUser() {
-
-        Role admin = new Role(1L, "ROLE_ADMIN");
-        Role user = new Role(2L, "ROLE_USER");
-        roleRepository.saveAll(List.of(admin, user));
-
-        List<Role> rolesOfAdmin = new ArrayList<>();
-        List<Role> rolesOfUser = new ArrayList<>();
-
-        Collections.addAll(rolesOfAdmin, admin, user);
-        Collections.addAll(rolesOfUser, user);
-
-        User adminUser = new User();
-        adminUser.setUsername("admin");
-        adminUser.setPassword(passwordEncoder.encode("admin"));
-        adminUser.setListRole(rolesOfAdmin);
-        adminUser.setEmail("@admin");
-        adminUser.setLastname("admin");
-        userRepository.save(adminUser);
-        User normalUser = new User();
-        normalUser.setUsername("user");
-        normalUser.setPassword(passwordEncoder.encode("user"));
-        normalUser.setListRole(rolesOfUser);
-        normalUser.setEmail("@user");
-        normalUser.setLastname("user");
-        userRepository.save(normalUser);
-    }
 }

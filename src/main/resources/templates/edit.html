@@ -1,44 +1,33 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Настройки пользователя</title>
-</head>
-<body>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>Настройки пользователя</title>-->
+<!--</head>-->
+<!--<body>-->
 
-<form th:method="PATCH" th:action="@{/admin/edit/{id}(id=${user.getId()})}" th:object="${user}">
-  <label for="username" >Новое имя: </label>
-  <input type="text" th:field="*{username}" id="username"/>
-  <br/>
-  <label for="lastname" >Новая фамилия: </label>
-  <input type="text" th:field="*{lastname}" id="lastname"/>
-  <br/>
-  <label for="email" >Новый email: </label>
-  <input type="text" th:field="*{email}" id="email"/>
-  <br/>
-  <label for="password" >Новый пароль: </label>
-  <input type="text" th:field="*{password}" id="password"/>
-  <br/>
-  <label for="listRole">Roles:</label><br>
-  <div th:each="role : ${roles}">
-    <input type="checkbox" id="role_${role.id}" name="listRole" th:value="${role.id}"
-           th:checked="${user.listRole.contains(role)}"> <label th:text="${role.rolename}"></label><br>
-  </div>
-  <br/>
+<!--<form th:method="PATCH" th:action="@{/admin/edit/{id}(id=${user.getId()})}" th:object="${user}">-->
+<!--  <label for="username" >Новое имя: </label>-->
+<!--  <input type="text" th:field="*{username}" id="username"/>-->
 <!--  <br/>-->
-<!--  <p>-->
-<!--    <label>Select role:-->
-<!--      <input type="checkbox" name="roles"-->
-<!--             th:each="role : ${roles}"-->
-<!--             th:text="${role.getRolename()()}"-->
-<!--             th:value="${role.getId()}"-->
-<!--             th:field="*{listRole}"-->
-<!--      />-->
-<!--    </label>-->
-<!--  </p>-->
+<!--  <label for="lastname" >Новая фамилия: </label>-->
+<!--  <input type="text" th:field="*{lastname}" id="lastname"/>-->
 <!--  <br/>-->
-  <input type="submit" value="Изменить!"/>
-</form>
+<!--  <label for="email" >Новый email: </label>-->
+<!--  <input type="text" th:field="*{email}" id="email"/>-->
+<!--  <br/>-->
+<!--  <label for="password" >Новый пароль: </label>-->
+<!--  <input type="text" th:field="*{password}" id="password"/>-->
+<!--  <br/>-->
+<!--  <label for="listRole">Roles:</label><br>-->
+<!--  <div th:each="role : ${roles}">-->
+<!--    <input type="checkbox" id="role_${role.id}" name="listRole" th:value="${role.id}"-->
+<!--           th:checked="${user.listRole.contains(role)}"> <label th:text="${role.rolename}"></label><br>-->
+<!--  </div>-->
+<!--  <br/>-->
 
-</body>
-</html>
+<!--  <input type="submit" value="Изменить!"/>-->
+<!--</form>-->
+
+<!--</body>-->
+<!--</html>-->

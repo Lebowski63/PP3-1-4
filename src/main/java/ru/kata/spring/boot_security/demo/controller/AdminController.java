@@ -1,13 +1,14 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
+
+import java.security.Principal;
 
 
 @Controller
@@ -23,36 +24,31 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @Secured("ADMIN")
+
     @GetMapping
-    public String getUsers(Model model) {
+    public String getUsers(Model model, Principal principal) {
         model.addAttribute("user", userService.getAllUsers());
+        model.addAttribute("anotherUser",userService.findByUsername(principal.getName()));
         return "admin";
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    @DeleteMapping("/delete")
+    public String delete(@RequestParam(value = "id") Long id) {
         userService.delete(id);
-        return "redirect:/admin";
+        return "redirect:/admin/";
     }
 
-    @GetMapping("/edit/{id}")
-    public String editUser(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getById(id));
-        model.addAttribute("roles", roleService.listRoles());
-        return "edit";
-    }
 
-    @PatchMapping("/edit/{id}")
-    public String updateUser(@PathVariable("id") Long id, @ModelAttribute("user") User user) {
-        userService.update(id,user);
-        return "redirect:/admin";
+    @PutMapping("/update/{id}")
+    public String updateUser(@ModelAttribute("user") User user) {
+        userService.save(user);
+        return "redirect:/admin/";
     }
 
     @GetMapping("/registration")
     public String registrationPage(@ModelAttribute("user") User user ,Model model) {
         model.addAttribute("roles", roleService.listRoles());
-        return "registration";
+        return "redirect:/admin";
     }
 
     @PostMapping("/registration")
