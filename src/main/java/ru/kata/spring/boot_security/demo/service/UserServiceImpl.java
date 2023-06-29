@@ -4,6 +4,7 @@ package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import java.util.*;
 
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     private final UserRepository userRepository;
@@ -32,13 +33,11 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     @Override
-    @Transactional
     public User getById(Long id) {
         return userRepository.getById(id);
     }
@@ -54,13 +53,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(User user) {
-        User userBD = userRepository.getById(user.getId());
-        userBD.setPassword(passwordEncoder.encode(user.getPassword()));
-        userBD.setUsername(user.getUsername());
-        userBD.setLastname(user.getLastname());
-        userBD.setEmail(user.getEmail());
-        userBD.setListRole(user.getListRole());
-        userRepository.save(userBD);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
     }
 
     @Override
@@ -76,7 +70,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null) {

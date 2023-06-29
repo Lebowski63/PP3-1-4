@@ -2,7 +2,6 @@ package ru.kata.spring.boot_security.demo.configs;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
@@ -11,24 +10,26 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Component
-public class RoleAndUser {
+public class DataInitializer {
 
-private final RoleService roleService;
+
+    private final RoleService roleService;
     private final UserService userService;
 
     @Autowired
-    public RoleAndUser(RoleService roleService, UserService userService) {
+    public DataInitializer(RoleService roleService, UserService userService) {
         this.roleService = roleService;
         this.userService = userService;
     }
 
 
-    @Bean
+    @PostConstruct
     public void createRoleAndUser() {
 
         Role admin = new Role("ROLE_ADMIN");
