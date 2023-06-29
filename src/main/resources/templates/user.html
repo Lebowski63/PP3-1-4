@@ -1,33 +1,4 @@
-<!--<!DOCTYPE HTML>-->
-<!--<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8"/>-->
-<!--    <title>Личный кабинет</title>-->
-<!--    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>-->
-<!--</head>-->
-<!--<body>-->
-<!--<h1>Личный кабинет</h1>-->
-<!--<div>-->
-<!--    <tr th:each="user: ${user}">-->
-<!--        <th>Имя: </th>-->
-<!--        <td th:utext="${user.getUsername()}">...</td>-->
-<!--        <br/>-->
-<!--        <th>Фамилия: </th>-->
-<!--        <td th:utext="${user.getLastname()}">...</td>-->
-<!--        <br/>-->
-<!--        <th>Почта: </th>-->
-<!--        <td th:utext="${user.getEmail()}">...</td>-->
-<!--        <br/>-->
-<!--        <th>Права доступа: </th>-->
-<!--        <td th:utext="${user.getAuthorities()}">...</td>-->
-<!--    </tr>-->
-<!--    <br/>-->
-<!--    <form style="display: inline-block;" th:action="@{/logout}">-->
-<!--        <input type="submit" value="Выйти"/>-->
-<!--    </form>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -42,7 +13,7 @@
 <header>
     <nav class="bg-dark navbar navbar-light">
         <span class="h1 mb-0 navbar-brand text-light"
-              th:text="${user.email} + ' with role: ' + ${user.getListRole()}"></span>
+              th:text="${user.username} + ' with role: ' + ${user.getListRole()}"></span>
         <a href="/logout" class="display-10 text-muted">Logout</a>
     </nav>
 </header>

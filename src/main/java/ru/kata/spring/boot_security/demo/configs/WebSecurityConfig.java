@@ -23,15 +23,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
     private final SuccessUserHandler successUserHandler;
-    private final RoleRepository roleRepository;
-    private final UserRepository userRepository;
+
 
     @Autowired
-    public WebSecurityConfig(@Lazy UserService userService, SuccessUserHandler successUserHandler, RoleRepository roleRepository, UserRepository userRepository) {
+    public WebSecurityConfig(@Lazy UserService userService, SuccessUserHandler successUserHandler) {
         this.userService = userService;
         this.successUserHandler = successUserHandler;
-        this.roleRepository = roleRepository;
-        this.userRepository = userRepository;
+
     }
 
     @Override

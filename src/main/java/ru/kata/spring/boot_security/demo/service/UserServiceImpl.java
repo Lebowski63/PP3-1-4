@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 
@@ -20,14 +19,13 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final RoleRepository roleRepository;
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public UserServiceImpl(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.roleRepository = roleRepository;
+    public UserServiceImpl( UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -55,14 +53,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void update(Long id, User user) {
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setUsername(user.getUsername());
-        user.setLastname(user.getLastname());
-        user.setEmail(user.getEmail());
-        user.setListRole(user.getListRole());
-        userRepository.save(user);
+    public void update(User user) {
+        User userBD = userRepository.getById(user.getId());
+        userBD.setPassword(passwordEncoder.encode(user.getPassword()));
+        userBD.setUsername(user.getUsername());
+        userBD.setLastname(user.getLastname());
+        userBD.setEmail(user.getEmail());
+        userBD.setListRole(user.getListRole());
+        userRepository.save(userBD);
     }
 
     @Override
@@ -78,14 +76,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User %s not found", username));
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                user.getAuthorities());
+        return user;
     }
 
 }
